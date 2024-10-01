@@ -15,7 +15,7 @@ P = np.array([[-2, -1], [0, 3], [2, -1]])
 
 fig, ax = plt.subplots(figsize=(10, 10), dpi=300)
 ax.set_facecolor('none')
-fig.patch.set_alpha(0)
+fig.set_facecolor("green")
 ax.grid(color='white', linewidth=0.5, alpha=0.3)
 
 # Remove the axes
@@ -27,7 +27,7 @@ ax.plot([x[1], x[2]], [y[1], y[2]], color="#7085FF", lw=2, solid_capstyle='round
 ax.scatter(x, y, facecolors="#B4BFFF", edgecolors="#7085FF", linewidths=2, s=400, zorder=1)
 
 # Save the figure before displaying
-plt.savefig("points_no_axes.png", transparent=True)
+plt.savefig("animacaoQuadratica/points_no_axes.png", transparent=True)
 
 moving_point_1, = ax.plot([], [], 'o', color='red',  markerfacecolor='#B4BFFF', markeredgecolor='#7085FF', markersize=15, markeredgewidth=3, zorder=2)
 moving_point_2, = ax.plot([], [], 'o', color='blue',  markerfacecolor='#B4BFFF', markeredgecolor='#7085FF', markersize=15, markeredgewidth=3, zorder=2)
@@ -50,7 +50,7 @@ def update(t):
 
 ani = FuncAnimation(fig, update, frames=np.linspace(0, 1, 500), blit=True, interval=30)
 
-ani.save("bezierPonto_Quadratica.mp4", writer="ffmpeg")
+ani.save("animacaoQuadratica/bezierPonto_Quadratica.mp4", writer="ffmpeg")
 
 # Inicializar a linha da curva de Bézier
 bezier_curve, = ax.plot([], [], color='#FF70C6', lw=5, solid_capstyle='round', zorder=3)
@@ -85,7 +85,7 @@ def bezier(t):
 
 bezier_anim = FuncAnimation(fig, bezier, frames=np.linspace(0, 1, 500), blit=True, interval=30)
 
-bezier_anim.save("bezier.mp4", writer="ffmpeg")
+bezier_anim.save("animacaoQuadratica/bezier.mp4", writer="ffmpeg")
 
 
 plt.show()

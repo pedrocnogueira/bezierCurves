@@ -11,8 +11,8 @@ def lerpPoint(P0, P1, t):
 P = np.array([[-8, -2], [-3, 2], [3, 2], [8, -2]])
 
 fig, ax = plt.subplots(figsize=(10, 5), dpi=500)
-ax.set_facecolor('none')
-fig.patch.set_alpha(0)
+ax.set_facecolor('green')
+fig.set_facecolor("green")
 ax.grid(color='white', linewidth=0.5, alpha=0.3)
 
 # Remove the axes
@@ -79,7 +79,7 @@ def bezier(t):
 
 bezier_anim = FuncAnimation(fig, bezier, frames=np.linspace(0, 1, 200), blit=True, interval=30)
 
-bezier_anim.save("animacaoCubica/bezierCubica.mov", writer="ffmpeg")
+bezier_anim.save("animacaoCubica/bezierCubica.mp4", writer="ffmpeg")
 
 
 plt.show()

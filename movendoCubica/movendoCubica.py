@@ -30,9 +30,9 @@ P_mov2 = np.array([[-2, -2], [9, 2], [-9, 2], [2, -2]])
 
 # Função de animação para interpolar entre dois conjuntos de pontos
 def animate_movement(P_start, P_end, filename):
-    fig, ax = plt.subplots(figsize=(10, 5), dpi=100)
+    fig, ax = plt.subplots(figsize=(10, 5), dpi=300)
     ax.set_facecolor('none')
-    fig.patch.set_alpha(0)
+    fig.set_facecolor("green")
     ax.grid(color='white', linewidth=0.5, alpha=0.3)
 
     # Definir os limites dos eixos para garantir que os pontos não saiam da tela
@@ -79,7 +79,7 @@ def animate_movement(P_start, P_end, filename):
         return control_points, bezier_curve, line_1, line_2
 
     # Criar a animação
-    ani = FuncAnimation(fig, update, frames=101, blit=True, interval=60)
+    ani = FuncAnimation(fig, update, frames=101, blit=True, interval=30)
 
     # Salvar a animação como mp4
     ani.save(filename, writer="ffmpeg")
@@ -87,10 +87,10 @@ def animate_movement(P_start, P_end, filename):
     plt.show()
 
 # Animação de P para P_mov1
-animate_movement(P, P_mov1, "P_to_P_mov1.mp4")
+animate_movement(P, P_mov1, "movendoCubica/P_to_P_mov1.mp4")
 
 # Animação de P_mov1 para P_mov2
-animate_movement(P_mov1, P_mov2, "P_mov1_to_P_mov2.mp4")
+animate_movement(P_mov1, P_mov2, "movendoCubica/P_mov1_to_P_mov2.mp4")
 
 # Animação de P_mov1 para P_mov2
-animate_movement(P_mov2, P, "P_mov2_to_P.mp4")
+animate_movement(P_mov2, P, "movendoCubica/P_mov2_to_P.mp4")
