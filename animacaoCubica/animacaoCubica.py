@@ -10,7 +10,7 @@ def lerpPoint(P0, P1, t):
 
 P = np.array([[-8, -2], [-3, 2], [3, 2], [8, -2]])
 
-fig, ax = plt.subplots(figsize=(10, 5), dpi=100)
+fig, ax = plt.subplots(figsize=(10, 5), dpi=500)
 ax.set_facecolor('none')
 fig.patch.set_alpha(0)
 ax.grid(color='white', linewidth=0.5, alpha=0.3)
@@ -25,7 +25,7 @@ ax.plot([P[2,0], P[3,0]], [P[2,1], P[3,1]], color="#7085FF", lw=2, solid_capstyl
 ax.scatter(P[:, 0], P[:, 1], facecolors="#B4BFFF", edgecolors="#7085FF", linewidths=2, s=400, zorder=1)
 
 # Save the figure before displaying
-plt.savefig("points_no_axes.png", transparent=True)
+plt.savefig("animacaoCubica/points_no_axes.png", transparent=True)
 
 moving_point_1, = ax.plot([], [], 'o', markerfacecolor='#B4BFFF', markeredgecolor='#7085FF', markersize=15, markeredgewidth=3, zorder=1)
 moving_point_2, = ax.plot([], [], 'o', markerfacecolor='#B4BFFF', markeredgecolor='#7085FF', markersize=15, markeredgewidth=3, zorder=1)
@@ -46,12 +46,12 @@ bezier_x = []
 bezier_y = []
 
 def bezier(t):
-    global bezier_x_data, bezier_y_data
+    global bezier_x, bezier_y
     
     # Reinicializar as coordenadas da curva quando a animação recomeça
     if t == 0:
-        bezier_x_data = []
-        bezier_y_data = []
+        bezier_x = []
+        bezier_y = []
 
     x1, y1 = lerpPoint(P[0], P[1], t)
     x2, y2 = lerpPoint(P[1], P[2], t)
@@ -77,9 +77,9 @@ def bezier(t):
 
     return moving_point_1, moving_point_2, moving_point_3, moving_point_4, moving_point_5, bezier_point, line_1, line_2, line_3, bezier_curve
 
-bezier_anim = FuncAnimation(fig, bezier, frames=np.linspace(0, 1, 500), blit=True, interval=60)
+bezier_anim = FuncAnimation(fig, bezier, frames=np.linspace(0, 1, 200), blit=True, interval=30)
 
-bezier_anim.save("bezierCubica.mp4", writer="ffmpeg")
+bezier_anim.save("animacaoCubica/bezierCubica.mov", writer="ffmpeg")
 
 
 plt.show()

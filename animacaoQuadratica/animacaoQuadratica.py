@@ -13,7 +13,7 @@ y = [-1, 3, -1]
 
 P = np.array([[-2, -1], [0, 3], [2, -1]])
 
-fig, ax = plt.subplots(figsize=(10, 10), dpi=100)
+fig, ax = plt.subplots(figsize=(10, 10), dpi=300)
 ax.set_facecolor('none')
 fig.patch.set_alpha(0)
 ax.grid(color='white', linewidth=0.5, alpha=0.3)
@@ -48,7 +48,7 @@ def update(t):
 
     return moving_point_1, moving_point_2, bezier_point, line_1
 
-ani = FuncAnimation(fig, update, frames=np.linspace(0, 1, 500), blit=True, interval=60)
+ani = FuncAnimation(fig, update, frames=np.linspace(0, 1, 500), blit=True, interval=30)
 
 ani.save("bezierPonto_Quadratica.mp4", writer="ffmpeg")
 
@@ -83,7 +83,7 @@ def bezier(t):
 
     return moving_point_1, moving_point_2, bezier_point, line_1, bezier_curve
 
-bezier_anim = FuncAnimation(fig, bezier, frames=np.linspace(0, 1, 500), blit=True, interval=60)
+bezier_anim = FuncAnimation(fig, bezier, frames=np.linspace(0, 1, 500), blit=True, interval=30)
 
 bezier_anim.save("bezier.mp4", writer="ffmpeg")
 
