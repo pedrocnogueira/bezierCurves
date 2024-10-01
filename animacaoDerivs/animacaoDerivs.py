@@ -31,13 +31,15 @@ def bezierSecondDerivative(P0, P1, P2, P3, t):
 # Define control points
 P = np.array([[-3, -3.5], [3.5, -2], [3, 4], [-2, 3]])
 
-fig, ax = plt.subplots(figsize=(10, 5), dpi=100)
-ax.set_facecolor('none')
-fig.patch.set_alpha(0)
+fig, ax = plt.subplots(figsize=(10, 5), dpi=300)
+ax.set_facecolor('green')
+fig.set_facecolor("green")
 ax.grid(color='white', linewidth=0.5, alpha=0.3)
-
-# Remove the axes
-ax.set_axis_off()
+ax.spines['top'].set_color('white')
+ax.spines['bottom'].set_color('white')
+ax.spines['left'].set_color('white')
+ax.spines['right'].set_color('white')
+ax.tick_params(colors='white')
 
 # Plot control points and lines
 ax.plot([P[0,0], P[1,0]], [P[0,1], P[1,1]], color="#7085FF", lw=2, solid_capstyle='round', zorder=0)
@@ -103,7 +105,9 @@ def bezier(t):
     return bezier_point, bezier_curve, first_deriv_quiver, second_deriv_quiver
 
 # Create animation
-bezier_anim = FuncAnimation(fig, bezier, frames=np.linspace(0, 1, 200), blit=True, interval=60)
+bezier_anim = FuncAnimation(fig, bezier, frames=np.linspace(0, 1, 300), blit=True, interval=30)
+
+bezier_anim.save("animacaoDerivs/derivVectors.mp4", writer="ffmpeg")
 
 # Show animation
 plt.show()

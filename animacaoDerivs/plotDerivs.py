@@ -31,7 +31,7 @@ def quadratic_bezier(P0, P1, P2, t):
     return x3, y3
 
 # Static plot for the first derivative Bézier curve
-def plot_first_derivative(P_prime):
+def plot_first_derivative(P_prime, ax):
     t_values = np.linspace(0, 1, 100)
     first_derivative_x = []
     first_derivative_y = []
@@ -41,10 +41,10 @@ def plot_first_derivative(P_prime):
         first_derivative_x.append(x)
         first_derivative_y.append(y)
 
-    ax1.plot(first_derivative_x, first_derivative_y, color='#A6FF70', lw=4, solid_capstyle='round')
+    ax.plot(first_derivative_x, first_derivative_y, color='#A6FF70', lw=4, solid_capstyle='round')
 
 # Static plot for the second derivative Bézier curve
-def plot_second_derivative(P_double_prime):
+def plot_second_derivative(P_double_prime, ax):
     t_values = np.linspace(0, 1, 100)
     second_derivative_x = []
     second_derivative_y = []
@@ -54,20 +54,65 @@ def plot_second_derivative(P_double_prime):
         second_derivative_x.append(x)
         second_derivative_y.append(y)
 
-    ax2.plot(second_derivative_x, second_derivative_y, color='#5CE1E6', lw=4, solid_capstyle='round')
+    ax.plot(second_derivative_x, second_derivative_y, color='#5CE1E6', lw=4, solid_capstyle='round')
 
-# Initialize the figure and axes
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
-ax1.grid(True)
-ax2.grid(True)
+# Function to animate first derivative Bézier curve
+def animate_first_derivative(t, P_prime, ax, arrow):
+    # First derivative Bézier point (quadratic Bézier)
+    x_prime, y_prime = quadratic_bezier(P_prime[0], P_prime[1], P_prime[2], t)
+    arrow.set_UVC(x_prime, y_prime)
+    return arrow,
 
-# Set axis labels and titles
-ax1.set_title("First Derivative Bézier Curve")
-ax1.set_xlabel("x")
-ax1.set_ylabel("y")
-ax2.set_title("Second Derivative Bézier Curve")
-ax2.set_xlabel("x")
-ax2.set_ylabel("y")
+# Function to animate second derivative Bézier curve
+def animate_second_derivative(t, P_double_prime, ax, arrow):
+    # Second derivative Bézier point (linear Bézier)
+    x_double_prime, y_double_prime = lerpPoint(P_double_prime[0], P_double_prime[1], t)
+    arrow.set_UVC(x_double_prime, y_double_prime)
+    return arrow,
+
+# Prepare and save first derivative animation
+def save_first_derivative_animation(P_prime):
+    fig, ax1 = plt.subplots(figsize=(6, 6))
+    fig.set_facecolor('green')
+    ax1.set_facecolor('green')
+    ax1.grid(color='white', linewidth=0.5, alpha=0.3)
+    ax1.spines['top'].set_color('white')
+    ax1.spines['bottom'].set_color('white')
+    ax1.spines['left'].set_color('white')
+    ax1.spines['right'].set_color('white')
+    ax1.tick_params(colors='white')
+    ax1.set_xlim(-20, 20)
+    ax1.set_ylim(-20, 20)
+
+    plot_first_derivative(P_prime, ax1)
+
+    arrow_first_derivative = ax1.quiver(0, 0, 0, 0, angles='xy', scale_units='xy', scale=1, color='#A6FF70', width=0.01)
+
+    anim1 = FuncAnimation(fig, animate_first_derivative, fargs=(P_prime, ax1, arrow_first_derivative), frames=np.linspace(0, 1, 300), interval=30, blit=True)
+
+    anim1.save("animacaoDerivs/first_derivative_animation.mp4", writer='ffmpeg', dpi=300)
+
+# Prepare and save second derivative animation
+def save_second_derivative_animation(P_double_prime):
+    fig, ax2 = plt.subplots(figsize=(6, 6))
+    fig.set_facecolor('green')
+    ax2.set_facecolor('green')
+    ax2.grid(color='white', linewidth=0.5, alpha=0.3)
+    ax2.spines['top'].set_color('white')
+    ax2.spines['bottom'].set_color('white')
+    ax2.spines['left'].set_color('white')
+    ax2.spines['right'].set_color('white')
+    ax2.tick_params(colors='white')
+    ax2.set_xlim(-50, 50)
+    ax2.set_ylim(-50, 50)
+
+    plot_second_derivative(P_double_prime, ax2)
+
+    arrow_second_derivative = ax2.quiver(0, 0, 0, 0, angles='xy', scale_units='xy', scale=1, color='#5CE1E6', width=0.01)
+
+    anim2 = FuncAnimation(fig, animate_second_derivative, fargs=(P_double_prime, ax2, arrow_second_derivative), frames=np.linspace(0, 1, 300), interval=30, blit=True)
+
+    anim2.save("animacaoDerivs/second_derivative_animation.mp4", writer='ffmpeg', dpi=300)
 
 # Define control points for the original Bézier curve
 P = np.array([[-3, -3.5], [3.5, -2], [3, 4], [-2, 3]])
@@ -76,43 +121,6 @@ P = np.array([[-3, -3.5], [3.5, -2], [3, 4], [-2, 3]])
 P_prime = first_derivative_control_points(P)
 P_double_prime = second_derivative_control_points(P_prime)
 
-# Initialize quivers (arrows) for both plots
-arrow_first_derivative = ax1.quiver(0, 0, 0, 0, angles='xy', scale_units='xy', scale=1, color='#A6FF70', width=0.01)
-arrow_second_derivative = ax2.quiver(0, 0, 0, 0, angles='xy', scale_units='xy', scale=1, color='#5CE1E6', width=0.01)
-
-# Set fixed axis limits to ensure the arrows stay within the visible range
-ax1.set_xlim(-20, 20)  # Adjust these values based on your Bézier curve range
-ax1.set_ylim(-20, 20)
-ax2.set_xlim(-50, 50)
-ax2.set_ylim(-50, 50)
-
-P_prime = first_derivative_control_points(P)
-P_double_prime = second_derivative_control_points(P_prime)
-
-# Plot the first derivative Bézier curve
-plot_first_derivative(P_prime)
-
-# Plot the second derivative Bézier curve
-plot_second_derivative(P_double_prime)
-
-# Function to update the arrow positions in the animation
-def update(t):
-    # First derivative Bézier point (quadratic Bézier)
-    x_prime, y_prime = quadratic_bezier(P_prime[0], P_prime[1], P_prime[2], t)
-
-    # Update first derivative arrow
-    arrow_first_derivative.set_UVC(x_prime, y_prime)
-
-    # Second derivative Bézier point (linear Bézier)
-    x_double_prime, y_double_prime = lerpPoint(P_double_prime[0], P_double_prime[1], t)
-
-    # Update second derivative arrow
-    arrow_second_derivative.set_UVC(x_double_prime, y_double_prime)
-
-    return arrow_first_derivative, arrow_second_derivative
-
-# Create the animation
-anim = FuncAnimation(fig, update, frames=np.linspace(0, 1, 200), interval=50, blit=True)
-
-# Show the animation
-plt.show()
+# Save both animations
+save_first_derivative_animation(P_prime)
+save_second_derivative_animation(P_double_prime)
