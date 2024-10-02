@@ -64,6 +64,6 @@ for i, color in enumerate(colors):
     ax.annotate("", xy=(arrow_end[0], arrow_end[1]), xytext=(O[0], O[1]),
                 arrowprops=dict(facecolor=color, edgecolor=color, arrowstyle='->', lw=4))
 
-plt.savefig("vectors.png", transparent=True)
+plt.savefig("animacaoVectors/vectors.png", transparent=True)
 
 plt.show()
